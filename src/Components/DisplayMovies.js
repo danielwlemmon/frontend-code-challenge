@@ -3,15 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../Services/API';
 
 const DisplayMovies = () => {
-  //declare states
+  // let fullMovieList;
+  const [filteredMovieList, setFilteredMovieList] = useState([]);
 
 
   useEffect(() => {
-    //API call here
-    API.getMovieList().then(res => {
-      console.log("received");
+    API.getMovieList().then((res) => {
+      // fullMovieList = res.data.data;
+      setFilteredMovieList(res.data.data);
     });
-  });
+
+  }, []);
+
 
   //update movie list function
 
@@ -20,8 +23,24 @@ const DisplayMovies = () => {
   //handle filterSelect
 
   return (
-    <div>test
+    <div>
+      {/* <img src={require('../Assets/moviePosterImages/defaultImage.jpeg')}></img> */}
+      <ul>
+        {filteredMovieList?.map((movie) => {
+          return (
+            <div key={movie.id}>
 
+              <li>{movie.title} {movie.id}</li>
+              <img src={require(`../Assets/moviePosterImages/defaultImage.jpeg`)} onError={
+                () => this.img.src = '../Assets/moviePosterImages/defaultImage.jpeg'
+              }
+              // src={require(`../Assets/moviePosterImages/${movie.id}.jpeg`)} onerror="this.onerror=null; this.src='../Assets/moviePosterImages/defaultImage.jpg'"
+              ></img>
+
+            </div>
+          )
+        })}
+      </ul>
     </div>
   )
 };

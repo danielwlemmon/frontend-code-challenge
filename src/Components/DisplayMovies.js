@@ -19,7 +19,7 @@ const DisplayMovies = () => {
   const checkImg = (id) => {
     try {
       return (<img src={require(`../Assets/moviePosterImages/${id}.jpeg`)}></img>);
-    } catch(err) {
+    } catch (err) {
       return (<img src={require(`../Assets/moviePosterImages/defaultImage.jpeg`)}></img>);
     }
   };
@@ -39,10 +39,9 @@ const DisplayMovies = () => {
         {filteredMovieList?.map((movie) => {
           return (
             <div key={movie.id}>
-
-              <li>{movie.title} {movie.id}</li>
-              
-              {checkImg(movie.id)}
+              <Link to={`/movie-details/${movie.id}`}>
+                {checkImg(movie.id)}
+              </Link>
             </div>
           )
         })}

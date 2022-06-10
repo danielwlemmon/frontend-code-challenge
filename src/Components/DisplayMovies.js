@@ -16,6 +16,16 @@ const DisplayMovies = () => {
   }, []);
 
 
+  const checkImg = (id) => {
+    try {
+      return (<img src={require(`../Assets/moviePosterImages/${id}.jpeg`)}></img>);
+    } catch(err) {
+      return (<img src={require(`../Assets/moviePosterImages/defaultImage.jpeg`)}></img>);
+    }
+  };
+
+
+
   //update movie list function
 
   //handle searchChange
@@ -24,22 +34,19 @@ const DisplayMovies = () => {
 
   return (
     <div>
-      {/* <img src={require('../Assets/moviePosterImages/defaultImage.jpeg')}></img> */}
+
       <ul>
         {filteredMovieList?.map((movie) => {
           return (
             <div key={movie.id}>
 
               <li>{movie.title} {movie.id}</li>
-              <img src={require(`../Assets/moviePosterImages/defaultImage.jpeg`)} onError={
-                () => this.img.src = '../Assets/moviePosterImages/defaultImage.jpeg'
-              }
-              // src={require(`../Assets/moviePosterImages/${movie.id}.jpeg`)} onerror="this.onerror=null; this.src='../Assets/moviePosterImages/defaultImage.jpg'"
-              ></img>
-
+              
+              {checkImg(movie.id)}
             </div>
           )
         })}
+
       </ul>
     </div>
   )

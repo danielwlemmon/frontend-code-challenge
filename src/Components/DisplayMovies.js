@@ -3,18 +3,27 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../Services/API';
 
 const DisplayMovies = () => {
-  // let fullMovieList;
   const [filteredMovieList, setFilteredMovieList] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [fullMovieList, setFullMovieList] = useState([]);
 
+  //will change to pulling genre names from data object
+  const [genres, setGenres] = useState(
+    ["Action", "Thriller", "Crime drama", "Mystery", "Children", "Comedy", 
+    "Adventure", "Animated", "Drama", "Comedy Drama", "Western", "Historical drama"]
+    );
 
   useEffect(() => {
     API.getMovieList().then((res) => {
-      // fullMovieList = res.data.data;
-      setFilteredMovieList(res.data.data);
+      if (res.data.message.toLowerCase() === "success") {
+        setFilteredMovieList(res.data.data);
+        setFullMovieList(res.data.data);
+      } else {
+        console.log(res.data.message);
+      };
     });
 
   }, []);
-
 
   const checkImg = (id) => {
     try {
@@ -24,18 +33,23 @@ const DisplayMovies = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    var lowerCase = (e.target.value.toLowerCase());
+    let result = [];
+    
+    result = fullMovieList.filter((data) =>{
+      return data.title.toLowerCase().search(lowerCase) != -1;
+    });
+    setFilteredMovieList(result);
+  };
 
-
-  //update movie list function
-
-  //handle searchChange
-
-  //handle filterSelect
+  
 
   return (
     <div>
-
-      <ul>
+        <label name="search">Search movie list  </label> 
+        <input label="search" onChange={handleSearch}></input>     
         {filteredMovieList?.map((movie) => {
           return (
             <div key={movie.id}>
@@ -46,7 +60,7 @@ const DisplayMovies = () => {
           )
         })}
 
-      </ul>
+    
     </div>
   )
 };

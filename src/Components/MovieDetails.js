@@ -9,7 +9,7 @@ const MovieDetails = () =>{
 
   useEffect(() => {
     API.getMovieDetails(id).then((res) =>{
-      if(res.data.message == "success") {
+      if(res.data.message.toLowerCase() === "success") {
         setMovie(res.data.data);
       } else {
         console.log(res.data.message);

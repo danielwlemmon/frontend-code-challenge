@@ -9,9 +9,14 @@ import DisplayMovies from './Components/DisplayMovies';
 import MovieDetails from './Components/MovieDetails'
 
 function App() {
+  
+
+  
+  
   return (
     <BrowserRouter>
       <div className="App">
+        
         <Routes>
           <Route path="/" element={<DisplayMovies />} />
           <Route path="/movie-details/:id" element={<MovieDetails />} />

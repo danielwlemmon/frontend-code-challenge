@@ -9,9 +9,9 @@ const DisplayMovies = () => {
 
   //will change to pulling genre names from data object
   const [genres, setGenres] = useState(
-    ["Action", "Thriller", "Crime drama", "Mystery", "Children", "Comedy", 
-    "Adventure", "Animated", "Drama", "Comedy Drama", "Western", "Historical drama"]
-    );
+    ["Action", "Thriller", "Crime drama", "Mystery", "Children", "Comedy",
+      "Adventure", "Animated", "Drama", "Comedy Drama", "Western", "Historical drama"]
+  );
 
   useEffect(() => {
     API.getMovieList().then((res) => {
@@ -37,30 +37,37 @@ const DisplayMovies = () => {
     e.preventDefault();
     var lowerCase = (e.target.value.toLowerCase());
     let result = [];
-    
-    result = fullMovieList.filter((data) =>{
+
+    result = fullMovieList.filter((data) => {
       return data.title.toLowerCase().search(lowerCase) != -1;
     });
     setFilteredMovieList(result);
   };
 
-  
+  const checkNoResults = () => {
+    if (filteredMovieList.length == 0) {
+      return "No results found...";
+    }
+  }
+
+
 
   return (
     <div>
-        <label name="search">Search movie list  </label> 
-        <input label="search" onChange={handleSearch}></input>     
-        {filteredMovieList?.map((movie) => {
-          return (
-            <div key={movie.id}>
-              <Link to={`/movie-details/${movie.id}`}>
-                {checkImg(movie.id)}
-              </Link>
-            </div>
-          )
-        })}
+      <label name="search">Search movie list  </label>
+      <input label="search" onChange={handleSearch}></input>
 
-    
+      <div>
+        {filteredMovieList.length > 0 ? filteredMovieList?.map((movie) => (
+
+          <div key={movie.id}>
+            <Link to={`/movie-details/${movie.id}`}>
+              {checkImg(movie.id)}
+            </Link>
+          </div>
+        )): <p>No results found...</p>}
+      </div>
+
     </div>
   )
 };

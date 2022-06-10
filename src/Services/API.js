@@ -16,7 +16,7 @@ const API = {
   },
 
   getMovieDetails: (id) => {
-    return axios.get(`${baseURL}`, config);
+    return axios.get(`${baseURL}/${id}`, config);
   }
 };
 

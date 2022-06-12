@@ -85,19 +85,19 @@ const DisplayMovies = () => {
       <div className='search-bar'>
         <label className='search-label' name="search">Search movie list  </label>
         <input label="search" onChange={handleSearch}></input>
-        <select onChange={handleGenreChange}>
+        <select className='dropdown' onChange={handleGenreChange}>
           {genreList.length > 1 ? genreList?.map((genre, idx) => (
-            <option key={idx}>{genre}</option>
+            <option className='dropdown-item' key={idx}>{genre}</option>
           )) : <option>Loading Genres...</option>}
         </select>
       </div>
       <div className='movies'>
         {filteredMovieList.length > 0 ? filteredMovieList?.map((movie) => (
-          <div key={movie.id} className="one_movie">
-            <h5 className='movie-title'>{movie.title}</h5>
+          <div key={movie.id} className="one_movie">    
             <a href={`/movie-details/${movie.id}`}>
               {checkImg(movie.id)}
             </a>
+            <h5 className='movie-title'>{movie.title}</h5>
           </div>
         )) : <p>No results found...</p>}
       </div>

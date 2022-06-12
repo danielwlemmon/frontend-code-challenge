@@ -8,6 +8,7 @@ const DisplayMovies = () => {
   const [fullMovieList, setFullMovieList] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [genreFilter, setGenreFilter] = useState("All");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     API.getMovieList().then((res) => {
@@ -19,10 +20,7 @@ const DisplayMovies = () => {
           genreArr.push(res.data.data[i].genres);
         };
         genreArr = genreArr.flat();
-        // setTimeout(() => {
-
         setGenreList([...new Set(genreArr)]);
-        // }, "300")
       } else {
         console.log(res.data.message);
       };
@@ -37,30 +35,57 @@ const DisplayMovies = () => {
     }
   };
 
-  // const filterByGenre = (e) => {
-  //   e.preventDefault();
+  const handleGenreChange = (e) => {
+    e.preventDefault();
+    setFilteredMovieList(fullMovieList);
 
-  //   console.log(e.target.value);
-  // }
+    setGenreFilter(e.target.value);
+    filterMovies(e.target.value, search);
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setFilteredMovieList(fullMovieList);
     var lowerCase = (e.target.value.toLowerCase());
-    let result = [];
 
-    result = fullMovieList.filter((data) => {
-      return data.title.toLowerCase().search(lowerCase) != -1;
-    });
-    setFilteredMovieList(result);
-
+    setSearch(lowerCase);
+    filterMovies(genreFilter, lowerCase);
   };
+
+  const filterMovies = (genre, searchText) => {
+    setFilteredMovieList(fullMovieList);
+
+    if (genre !== "All" && searchText === "") {
+      let resultGenre = [];
+      resultGenre = fullMovieList.filter((data) => {
+        return data.genres.toString().search(genre) !== -1;
+      });
+      setFilteredMovieList(resultGenre);
+    } else if (genre === "All" && searchText !== "") {
+      let resultOfText = [];
+      resultOfText = fullMovieList.filter((data) => {
+        return data.title.toLowerCase().search(searchText) !== -1;
+      });
+      setFilteredMovieList(resultOfText);
+    } else if (genre !== "All" && searchText !== "") {
+      let resultGenre = [];
+      resultGenre = fullMovieList.filter((data) => {
+        return data.genres.toString().search(genre) !== -1;
+      });
+      let resultOfText = [];
+      resultOfText = resultGenre.filter((data) => {
+        return data.title.toLowerCase().search(searchText) !== -1;
+      });
+      setFilteredMovieList(resultOfText);
+    }
+  }
 
   return (
     <div>
       <div className='search-bar'>
         <label className='search-label' name="search">Search movie list  </label>
         <input label="search" onChange={handleSearch}></input>
-        <select>
+        <select onChange={handleGenreChange}>
           {genreList.length > 1 ? genreList?.map((genre, idx) => (
             <option key={idx}>{genre}</option>
           )) : <option>Loading Genres...</option>}

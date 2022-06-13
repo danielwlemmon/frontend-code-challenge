@@ -16,11 +16,15 @@ body {
 .App {
   text-align: center;
   background-color: black;
-  font-family: sans-serif;
+  font-family:Arial, Helvetica, sans-serif;
+  
 }
 
 .movie-list-page {
-  background-image: url('/src/Assets/movieHeroImages/defaultImage.jpeg');
+  background-image: url('/src/Assets/moviePosterImages/defaultImage.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .search-bar {
@@ -45,13 +49,12 @@ body {
   padding-left: 10px;
   display: inline-flex;
   flex-wrap: wrap;
-  align-content:space-around;
 }
 
 .one_movie {
   background-color: black;
   padding:0;
-  margin: 5px;
+  margin: 10px;
   border-radius: 5px;
 }
 
@@ -60,7 +63,7 @@ body {
 }
 
 .movie-title {
-  color: white;
+  color: var(--lightGrey);
   margin: 0;
   max-height: 40px;
   min-height: 40px;
@@ -71,7 +74,6 @@ body {
 .movie-details-page {
   min-height: 100%;
   background-color: black;
-
   color: var(--lightGrey);
 }
 
@@ -86,8 +88,9 @@ body {
 }
 
 .one-movie-title {
-  Padding-top: 80px;
+  Padding-top: 90px;
   font-size: 75px;
+
 }
 
 .genre-container {
@@ -97,7 +100,4 @@ body {
 .movie-description {
   font-size: larger;
   padding: 0 80px 0 80px
-}
-
-.topCast-list {
 }

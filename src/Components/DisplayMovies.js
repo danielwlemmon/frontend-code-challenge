@@ -1,6 +1,4 @@
-import { render } from '@testing-library/react';
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import API from '../Services/API';
 
 const DisplayMovies = () => {
@@ -83,12 +81,12 @@ const DisplayMovies = () => {
   return (
     <div>
       <div className='search-bar'>
-        <label className='search-label' name="search">Search movie list  </label>
+        <label className='search-label' name="search">Search  </label>
         <input label="search" onChange={handleSearch}></input>
         <select className='dropdown' onChange={handleGenreChange}>
           {genreList.length > 1 ? genreList?.map((genre, idx) => (
             <option className='dropdown-item' key={idx}>{genre}</option>
-          )) : <option>Loading Genres...</option>}
+          )) : <option >Loading Genres...</option>}
         </select>
       </div>
       <div className='movies'>

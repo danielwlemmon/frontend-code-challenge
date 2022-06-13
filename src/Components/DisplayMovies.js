@@ -2,29 +2,37 @@ import React, { useState, useEffect } from 'react';
 import API from '../Services/API';
 
 const DisplayMovies = () => {
+  //declare states
   const [filteredMovieList, setFilteredMovieList] = useState([]);
   const [fullMovieList, setFullMovieList] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [genreFilter, setGenreFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const [bgImg, setBgImg] = useState("");
 
   useEffect(() => {
+    //call API to get the movie data
     API.getMovieList().then((res) => {
+      //check if call was successful
       if (res.data.message.toLowerCase() === "success") {
+        //initially set the movie lists to the full data
         setFilteredMovieList(res.data.data);
         setFullMovieList(res.data.data);
+        //add the All option to the array of Genres that is being built
         let genreArr = ["All"];
+        //I'm sure there's a better way to do this. perhaps a forEach function...
         for (let i = 0; i < res.data.data.length; i++) {
-          genreArr.push(res.data.data[i].genres);
+          genreArr.push(res.data.data[i].genres); 
         };
-        genreArr = genreArr.flat();
-        setGenreList([...new Set(genreArr)]);
+        genreArr = genreArr.flat(); //flatten nested array
+        setGenreList([...new Set(genreArr)]); //remove duplicate listins of Genres
       } else {
         console.log(res.data.message);
       };
     });
   }, []);
 
+  //check if there is a valid image file for the movie ID, if not assign the default image
   const checkImg = (id) => {
     try {
       return (<img src={require(`../Assets/moviePosterImages/${id}.jpeg`)}></img>);
@@ -33,6 +41,7 @@ const DisplayMovies = () => {
     }
   };
 
+  //when there is a change in the genre filter, set the state and run filter
   const handleGenreChange = (e) => {
     e.preventDefault();
     setFilteredMovieList(fullMovieList);
@@ -41,6 +50,7 @@ const DisplayMovies = () => {
     filterMovies(e.target.value, search);
   }
 
+  //when something is typed, set the state and fun filter
   const handleSearch = (e) => {
     e.preventDefault();
     setFilteredMovieList(fullMovieList);
@@ -50,21 +60,24 @@ const DisplayMovies = () => {
     filterMovies(genreFilter, lowerCase);
   };
 
+  //given the genre and search text filters, return a filtered list of movies
   const filterMovies = (genre, searchText) => {
+    //start with the full movie list, assign it incase the change that happend
+    //is that the filters were removed
     setFilteredMovieList(fullMovieList);
 
-    if (genre !== "All" && searchText === "") {
+    if (genre !== "All" && searchText === "") { //run through genre filter
       let resultGenre = [];
       resultGenre = fullMovieList.filter((data) => {
         return data.genres.toString().search(genre) !== -1;
       });
-      setFilteredMovieList(resultGenre);
-    } else if (genre === "All" && searchText !== "") {
+      setFilteredMovieList(resultGenre); 
+    } else if (genre === "All" && searchText !== "") { //run through search filter
       let resultOfText = [];
       resultOfText = fullMovieList.filter((data) => {
         return data.title.toLowerCase().search(searchText) !== -1;
       });
-      setFilteredMovieList(resultOfText);
+      setFilteredMovieList(resultOfText); //run through both filters
     } else if (genre !== "All" && searchText !== "") {
       let resultGenre = [];
       resultGenre = fullMovieList.filter((data) => {
@@ -79,7 +92,7 @@ const DisplayMovies = () => {
   }
 
   return (
-    <div>
+    <div className='movie-list-page' >
       <div className='search-bar'>
         <label className='search-label' name="search">Search  </label>
         <input label="search" onChange={handleSearch}></input>
@@ -92,7 +105,8 @@ const DisplayMovies = () => {
       <div className='movies'>
         {filteredMovieList.length > 0 ? filteredMovieList?.map((movie) => (
           <div key={movie.id} className="one_movie">    
-            <a href={`/movie-details/${movie.id}`}>
+            <a onMouseOver={() => setBgImg(`moviePosterImages/${movie.id}.jpeg`)} 
+            href={`/movie-details/${movie.id}`}>
               {checkImg(movie.id)}
             </a>
             <h5 className='movie-title'>{movie.title}</h5>

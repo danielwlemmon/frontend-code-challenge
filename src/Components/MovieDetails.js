@@ -10,6 +10,7 @@ const MovieDetails = () => {
   const [genres, setGenres] = useState([]);
 
   useEffect(() => {
+    //get movie details from API based on the movie id passed via params
     API.getMovieDetails(id).then((res) => {
       if (res.data.message.toLowerCase() === "success") {
         setMovie(res.data.data);
@@ -22,6 +23,7 @@ const MovieDetails = () => {
     })
   }, []);
 
+  //check if there is a hero image, if not assign to default
   const checkImg = (id) => {
     try {
       return (<img className='center-fit' src={require(`../Assets/movieHeroImages/${id}.jpeg`)}></img>);

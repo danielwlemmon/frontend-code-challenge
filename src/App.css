@@ -19,6 +19,10 @@ body {
   font-family: sans-serif;
 }
 
+.movie-list-page {
+  background-image: url('/src/Assets/movieHeroImages/defaultImage.jpeg');
+}
+
 .search-bar {
   position: fixed;
   width: 100%;
@@ -38,6 +42,7 @@ body {
 
 .movies {
   padding-top: 90px;
+  padding-left: 10px;
   display: inline-flex;
   flex-wrap: wrap;
   align-content:space-around;
